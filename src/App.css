@@ -1,0 +1,222 @@
+body{
+
+  background: linear-gradient(-45deg, #aeb3f79c, #eebaf888, #a9a8fd5d, #ddfaf386);
+	background-size: 400% 400%;
+}
+.App {
+  text-align: center;
+  
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.App-link {
+  color: #61dafb;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#DivRegisAndLoginLinks{
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  flex-flow: row wrap;
+}
+.container-menu {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-evenly;
+  flex-flow: row wrap;
+  background-color: #dfdfdf;
+  
+  border-radius: 15px;
+}
+.container-menu > .name_category {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.name_category:hover {
+  border-bottom-style: solid;
+  border-block-color: #9f68cc;
+}
+.link{
+  font-family: Arial, Helvetica, sans-serif;
+  color: #686868;
+  text-decoration: none;
+}
+.hamburger
+{
+    display: none;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1024px-Hamburger_icon.svg.png);
+    background-size: cover;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 0px;
+}
+.hamburgerMenu
+{
+    display: none;
+    text-align: center;
+}
+.formRegistration {
+  display: flex;
+  flex-flow: column wrap;
+}
+.container-menu {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-evenly;
+  flex-flow: row wrap;
+  background-color: #dfdfdf;
+  border-radius: 20px;
+
+}
+.container-menu:hover{
+  box-shadow: 0px 0px 5px #757575;
+}
+
+.container-menu > .name_category {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.name_category:hover {
+  border-bottom-style: solid;
+  border-block-color: #9f68cc;
+}
+#container-tovarov{
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: space-evenly;
+}
+.cart{
+  width: 250px;
+  height: 250px;
+  margin: 10px;
+  padding: 20px;
+  border-color: rgb(163, 163, 163);
+  border-width: 1px;
+  border-style: solid;
+}
+.cart:hover{
+box-shadow: 0px 0px 5px #757575;
+}
+.img_gadget{
+width: 100%;
+max-height: 120px;
+max-width: 100px;
+margin-left: 75px;
+}
+.cart_gadget{
+text-align: center;
+margin-top: 10px;
+font-size: 16px;
+color: #000000;
+font-family: Arial, Helvetica, sans-serif;
+}
+.BuyBtn{
+font-size: 16px;
+border-radius: 15px;
+border-width: 1px;
+border-color: gold;
+background-color: gold;
+width: 80px;
+height: 30px;
+margin-top: 10px;
+margin-left: 85px; 
+}
+button:hover{
+border-color: #9f68cc;
+background-color: #9f68cc;
+color: white;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+span {
+  cursor: pointer;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 3em;
+  transform: translate(-50%,-50%);
+  background-image: linear-gradient(gold, gold);
+  background-size: 100% 10px;
+  background-repeat: no-repeat;
+  background-position: 100% 0%;
+   transition: background-size .7s, background-position .5s ease-in-out;
+}
+
+span:hover {
+  background-size: 100% 100%;
+  background-position: 0% 100%;
+  transition: background-position .7s, background-size .5s ease-in-out;
+}
+@media screen and (max-width: 500px) {
+
+  .hamburger
+  {
+      display: inline;
+  }
+  
+  .hamburger:hover .hamburgerMenu
+  {
+      display: inline;
+      background-color: lightgray;
+      width: 100px;
+      height: 100vh;
+      position: absolute;
+  }
+  .hamburger:hover .hamburgerMenu div 
+  {
+      width: 100px;
+      float:inline-start;
+      position:relative;
+      margin-top: 30%;
+      text-align: center;
+  }
+  .hamburger:hover .hamburgerMenu div:hover
+  {
+      text-decoration: underline;
+  }
+  #DivRegisAndLoginLinks
+  {
+    display: none;
+  }
+  .container-menu{
+    display: none;
+    background: none;
+    border-radius: 30px;
+    font-size: 8px;
+  }
+  
+  .name_category{
+      float: none;
+      text-align: left;
+  }
+
+}
