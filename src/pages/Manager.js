@@ -1,10 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import '../cssFiles/style_for_manager.css';
-import ReactLogo from '../logout_black_24dp.svg';
-import ReactLogo2 from '../person_outline_black_24dp.svg';
-import ReactLogo3 from '../create_black_24dp.svg';
+import axios from "axios";
 
 function Manager(){
 
@@ -126,6 +123,7 @@ function Manager(){
         axios({
             method:'post',
             url: "https://webapplicationclient20230302194755.azurewebsites.net/Gadget/Add Gadget",
+            //url: "https://localhost:7020/Gadget/AddGadget",
             data: JSON.stringify(new_gadget),
             dataType: "dataType",
             headers: {
@@ -205,19 +203,19 @@ function Manager(){
                 <div>
                     <Link className="link" to="/registManager">
                         Regist Manager 
-                        <img src={ReactLogo3} style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/create_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
                     </Link>
                     
                     <b className="RegisAndLoginLinks" > or </b>
                     <Link className="link" to="/login">
                         Login   
-                        <img src={ReactLogo2} style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/person_outline_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
                     </Link>
                     
                 </div>
                 <div onClick={()=>getOut()} style={{ cursor: 'pointer'}}>
                     <b className="link" id="out" >Out   </b>
-                    <img src={ReactLogo} style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                    <img src="https://alexstsorageblops.blob.core.windows.net/magic/logout_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
                 </div>
                 
             </div>

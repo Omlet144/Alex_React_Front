@@ -1,18 +1,23 @@
 import { Link, Outlet } from "react-router-dom";
-import axios from "axios";
+import { SliderData } from '../components/SliderData.js';
 import { useEffect, useState } from "react";
-import ReactLogo from '../logout_black_24dp.svg';
-import ReactLogo2 from '../person_outline_black_24dp.svg';
-import ReactLogo3 from '../create_black_24dp.svg';
-import LogoSearch from '../search.svg';
-import Baner from '../img/Baner.png';
+import { useClipboard } from 'use-clipboard-copy';
+
 import '../cssFiles/style_main.css';
-import Slider from "@mui/material/Slider";
+
 import React from "react";
+import axios from "axios";
+
+import Slider from "@mui/material/Slider";
+import Cards from "../components/Cards.js";
+import Paginationee from "../components/Paginationee.js";
 
 function Main(){
 
+    const clipboard = useClipboard();
+
     var uniqueNames = [];
+    
     const [models, setModels] = useState([]);
     const [gadgets, setGadgets] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -20,7 +25,21 @@ function Main(){
     const [flag2, setFlag2] = useState(0);
     const [search, setSearch] = useState("");
     const [range, setRange] = React.useState([50, 100000]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [cardsPerPage, setcardsPerPage] = useState(6);
+    const [current, setCurrent] = useState(0);
     
+    const paginate = pageNumber => setCurrentPage(pageNumber)
+    const nextSlide = () => {setCurrent(current === length - 1 ? 0 : current + 1);};
+    const prevSlide = () => {setCurrent(current === 0 ? length - 1 : current - 1);};
+    
+    if (!Array.isArray(SliderData) || SliderData.length <= 0) {return null;}
+
+    const length = SliderData.length;
+    const lastCardIndex = currentPage * cardsPerPage;
+    const firstCardIndex = lastCardIndex - cardsPerPage;
+    const currentCard = gadgets.slice(firstCardIndex, lastCardIndex);
+
     function handleChanges(event, newValue) {
       setRange(newValue);
     }
@@ -134,25 +153,11 @@ function Main(){
             setFlag2(1);
         }
     }
-    function buyBtn()
-    {
-        if(window.sessionStorage.getItem('token')==null || window.sessionStorage.getItem('token')=='null')
-        {
-            alert("You need to Login!")
-           
-        }
-        else
-        {
-           
-            alert("Congratulations you Buy it!")
-        }
-    }
     function clearSearch(){
         setSearch("");
     }
     function filterBtn(){
         let modelNames = document.getElementsByClassName("checkboxes");
-        console.log(modelNames);
         setModels([]);
 
         for (const item of modelNames)
@@ -167,6 +172,10 @@ function Main(){
     function modelFilter(){
         uniqueNames = Array.from(new Set(gadgets.map((item, index)=>(item.name))));
         console.log(uniqueNames);
+    }
+    function copyNumber(copy) {
+       clipboard.copy(copy);
+       alert('Сopied: '+copy);
     }
     return(
     <div className="App1">
@@ -192,44 +201,59 @@ function Main(){
                 <div>
                     <Link className="link" to="/regist">
                         Regist  
-                        <img src={ReactLogo3} style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/create_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
                     </Link>
                     
                     <b className="RegisAndLoginLinks" > or </b>
                     <Link className="link" to="/login">
                         Login   
-                        <img src={ReactLogo2} style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/person_outline_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
                     </Link>
                     
                 </div>
                 <div id="form-search" action="">
-                    <input id="input-form-search" type="search" required value={search} onChange={(e)=>{setSearch(e.target.value)}}></input>
+                    <input id="input-form-search" type="search" required value={search} onChange={(e)=>{setSearch(e.target.value)}}
+                    onKeyDown={(event) =>
+                        {
+                            if (event.key === 'Enter') {
+                                getGadgetsByName(search)
+                            }
+                        }}
+                    ></input>
                     <i id="fa-search" onClick={()=>getGadgetsByName(search)}>
-                        <img id="logo-search" src={LogoSearch}></img>
+                        <img id="logo-search" src="https://alexstsorageblops.blob.core.windows.net/magic/search.svg"></img>
                     </i>
                     <a id="clear-btn" onClick={()=>clearSearch()}>X</a>
                 </div>
-
-                <div onClick={()=>getOut()} style={{ cursor: 'pointer'}}>
+                <div id="out" onClick={()=>getOut()} style={{ cursor: 'pointer'}}>
                     <b className="link" id="out" >Out   </b>
-                    <img src={ReactLogo} style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                    <img src="https://alexstsorageblops.blob.core.windows.net/magic/logout_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
                 </div>
                 
             </div>
+
             <br></br>
 
-            <div class="baner">
-                <img src={Baner} alt="normal"></img>
+            <div id="baner">
+                <section className='slider'>
+                    <img className='left-arrow' src="https://alexstsorageblops.blob.core.windows.net/magic/arrow_forward_ios_black_24dp.svg"onClick={prevSlide}></img>
+                    <img className='right-arrow'src="https://alexstsorageblops.blob.core.windows.net/magic/arrow_forward_ios_black_24dp.svg" onClick={nextSlide}></img>
+                    {SliderData.map((slide, index) => {
+                    return(
+                        <div className={index === current ? 'slide active' : 'slide'} key={index}>
+                            {index === current && (<img src={slide.image} alt='travel image' className='image' />)}
+                        </div>
+                    );})}
+                </section>
             </div>
 
             <br></br>
+
             <div style={{textAlign: 'center'}}>
                 <span className="top" onClick={()=>(window.location.reload())}>STORE OF GADGETS</span>
             </div>
+
             <br></br>
-
-
-            
             <div className="container-menu" id="container" style={{cursor: 'pointer'}}>
             {getCategorys()}
             {
@@ -272,25 +296,71 @@ function Main(){
 
                 <div id="container-tovarov">
                 {getAllGadgets()}
-                {
-                gadgets.map((item, index)=>(
-                    <div key={index} className="cart" id={item.id}>
-                        <img className="img_gadget" src={item.image}></img>
-                        <div className="cart_gadget">{item.name}</div>
-                        <div className="cart_gadget">{item.model}</div>
-                        <div className="cart_gadget">{item.price}₴</div>
-                        <button className="BuyBtn" onClick={buyBtn}>Buy</button>
-                    </div>
-                ))  
-                }
+                <Cards
+                    gadgets={currentCard}
+                ></Cards>
+                <Paginationee 
+                    cardsPerPage={cardsPerPage}
+                    totalCards={gadgets.length}
+                    paginate={paginate}
+                ></Paginationee>
                 </div>
             </div>
+
+            <br></br>
+
+            <div className="end-page">
+                <div className="numbers-and-socials-links">
+                    <br></br>
+                    <span className="top" onClick={()=>(window.location.reload())}>STORE OF GADGETS</span>
+                    <br></br>
+                    <h3>Contacts:</h3>
+                    <p onClick={()=>copyNumber("0800210186")}>0 800 210 186</p>
+                    <p onClick={()=>copyNumber("0443336352")}>044 333-63-52</p>
+                    <p onClick={()=>copyNumber("0671530508")}>(067) 153-05-08</p>
+                    <p onClick={()=>copyNumber("0632334950")}>(063) 233 49 50</p>
+                    <br></br>
+                    <Link to="https://www.facebook.com/alex.black.one/">
+                        <img className="social-logo" style={{width: '10px', height:'20px'}} src="https://alexstsorageblops.blob.core.windows.net/magic/facebook.png" alt="normal"/>
+                    </Link>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Link to="https://www.instagram.com/alexeycherniy/">
+                        <img className="social-logo" style={{width: '20px', height:'20px'}} src="https://alexstsorageblops.blob.core.windows.net/magic/instagram.png" alt="normal"/>
+                     </Link>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Link to="https://www.tiktok.com/@alexeycherniy1">
+                        <img className="social-logo" style={{width: '15px', height:'20px'}} src="https://alexstsorageblops.blob.core.windows.net/magic/tiktok.png"/>
+                    </Link>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Link to="https://www.youtube.com/@AlexBlackOne1">
+                        <img className="social-logo" style={{width: '25px', height:'20px'}} src="https://alexstsorageblops.blob.core.windows.net/magic/youtube.png" alt="normal" />
+                    </Link>
+                    <br></br>
+                    <br></br>
+                </div>
+                <div className="about-us" style={{marginTop: "70px", color: 'white'}}>
+                    <h3>About us:</h3>
+                    <p>We are a new super cool company!!!</p>
+                    <p>We are the best super cool company!!!</p>
+                    <p>We have the cheapest and original gadgets!!!</p>
+                    <p>Don't pass by!!!</p>
+                </div>
+                <div className="addresses" style={{marginTop: "70px", color: 'white'}}>
+                    <h3>Addresses:</h3>
+                    <Link style={{color: 'white'}} className="link" to="https://www.google.com/maps/place/Днепр,+Днепропетровская+область,+49000/@48.4622131,34.8599289,11z/data=!3m1!4b1!4m6!3m5!1s0x40dbe303fd08468f:0xa1cf3d5f2c11aba!8m2!3d48.464717!4d35.046183!16zL20vMDN4NDVw">
+                        <p >Ukraine, Dnipro, 49000</p>
+                    </Link>
+                    <p onClick={()=>copyNumber("alexblack144@gmail.com")}>alexblack144@gmail.com</p>
+                </div>
+                <div className="end-text" style={{position: 'absolute', marginTop: '280px', color: 'white'}}>
+                    © Store of gadgets 2023 - Online store of equipment Dnipro, Ukraine.
+                </div>
+            
+            </div>
+
         </div>
 
-    </div>
-       
-        
-        
+    </div> 
     );
 }
 
