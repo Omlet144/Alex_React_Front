@@ -216,7 +216,7 @@ function Manager(){
         
     }
     function updateGadget(img){
-        console.log(img);
+        console.log(statusUpdate==='true');
         let update_gadget = {
             Id: parseInt(idUpdate),
             Image: img,
@@ -225,7 +225,7 @@ function Manager(){
             Price: parseFloat(priceUpdate),
             Quantity: parseInt(quantityUpdate),
             Sold: parseInt(soldUpdate),
-            Status: (statusUpdate === "true"),
+            Status: (statusUpdate==='true'),
             IdCategory: parseInt(selectCategoryUpdate)
         };
         axios({
@@ -239,8 +239,8 @@ function Manager(){
             }
         })
         .then(data=>{
-           console.log(data);
-           window.location.reload();
+            console.log(data);
+            window.location.reload();
         })
     }
     function getOut(){
@@ -432,9 +432,9 @@ function Manager(){
                     <label>Model:</label>
                     <input className="new_gadget" id="model_new_gadget" onChange={(e)=>{setModelNew(e.target.value)}}></input>
                     <label>Price:</label>
-                    <input className="new_gadget" id="price_new_gadget" onChange={(e)=>{setPriceNew(e.target.value)}}></input>
+                    <input type='number' className="new_gadget" id="price_new_gadget" onChange={(e)=>{setPriceNew(e.target.value)}}></input>
                     <label>Quantity:</label>
-                    <input className="new_gadget" id="quantity_new_gadget" onChange={(e)=>{setQuantityNew(e.target.value)}}></input>
+                    <input type='number' className="new_gadget" id="quantity_new_gadget" onChange={(e)=>{setQuantityNew(e.target.value)}}></input>
                     <label>Status:</label>
                     <select id="status_new_gadget" defaultValue='true' onChange={(e)=>{setStatusNew(e.target.value)}}>
                         <option value="true">Enablet</option>
@@ -466,15 +466,15 @@ function Manager(){
                     <label>Model:</label>
                     <input className="new_gadget" id="model_update_gadget" value={modelUpdate} onChange={(e)=>{setModelUpdate(e.target.value)}}></input>
                     <label>Price:</label>
-                    <input className="new_gadget" id="price_update_gadget" value={priceUpdate} onChange={(e)=>{setPriceUpdate(e.target.value)}}></input>
+                    <input type='number' className="new_gadget" id="price_update_gadget" value={priceUpdate} onChange={(e)=>{setPriceUpdate(e.target.value)}}></input>
                     <label>Quantity:</label>
-                    <input className="new_gadget" id="quantity_update_gadget" value={quantityUpdate} onChange={(e)=>{setQuantityUpdate(e.target.value)}}></input>
+                    <input type='number' className="new_gadget" id="quantity_update_gadget" value={quantityUpdate} onChange={(e)=>{setQuantityUpdate(e.target.value)}}></input>
                     <label>Sold:</label>
-                    <input className="new_gadget" id="sold_update_gadget" value={soldUpdate} onChange={(e)=>{setSoldUpdate(e.target.value)}}></input>
+                    <input type='number' className="new_gadget" id="sold_update_gadget" value={soldUpdate} onChange={(e)=>{setSoldUpdate(e.target.value)}}></input>
                     <label>Status:</label>
-                    <select id="status_update_gadget" defaultValue={statusUpdate} onChange={(e)=>{setStatusUpdate(e.target.value)}}>
-                        <option value="true">Enablet</option>
-                        <option value="false">Disabled</option>
+                    <select id="status_update_gadget"  onChange={(e)=>{setStatusUpdate(e.target.value)}}>
+                        <option value={'true'}>Enablet</option>
+                        <option value={'false'}>Disabled</option>
                     </select>
                     <label>Category:</label>
                     <select id="select_update_category" defaultValue={selectCategoryUpdate} onChange={(e)=>{setSelectCategoryUpdate(e.target.value)}}>

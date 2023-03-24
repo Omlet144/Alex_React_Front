@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 
 const Cards=({gadgets, changeBasketCount, basket, baskeGadgets})=>{
+  
+    
     function buyBtn(id, image, name, model, price, quantity, sold, status, idCategory)
     {
         if(window.sessionStorage.getItem('token')==null || window.sessionStorage.getItem('token')=='null')

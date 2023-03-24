@@ -1,5 +1,7 @@
 import React from "react";
+import axios from "axios";
 import { useState, useEffect } from "react";
+
 
 const BasketGadjeds=({baskeGadgets, btnBasketDell, basketFormInline, setBasketFormInline, refreshBasket})=>{
 
@@ -12,7 +14,22 @@ const BasketGadjeds=({baskeGadgets, btnBasketDell, basketFormInline, setBasketFo
         return totPrice;
     }
     function buyAllBasket(){
-        alert('Congratulations on your purchase!')
+        alert('Congratulations on your purchase!');
+
+        axios({
+            method:'post',
+            url: "https://webapplicationclient20230302194755.azurewebsites.net/Gadget/BuyGadgets",
+            data: JSON.stringify(baskeGadgets),
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + window.sessionStorage.getItem('token')
+            }
+        })
+        .then(data=>{
+            console.log(data);
+            window.location.reload();
+        })
     }
     return(
         <div id="basket-form" style={{display: basketFormInline}}>

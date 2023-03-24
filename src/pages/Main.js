@@ -74,7 +74,7 @@ function Main(){
             })
             .then(data=>
             {
-                setGadgets(data.data);    
+                setGadgets(data.data.filter((item, index) => { return item.status==true}));    
             })
             setFlag(1);
             
@@ -82,7 +82,6 @@ function Main(){
     }
     function getGadgetsById(id)
     {
-        console.log(id);
         axios({
             method:'get',
             url: `https://webapplicationclient20230302194755.azurewebsites.net/Gadget/GetGadgetbyId_Category?id=${id}`,
@@ -93,7 +92,7 @@ function Main(){
         })
         .then(data=>
         {
-            setGadgets(data.data);    
+            setGadgets(data.data.filter((item, index) => { return item.status==true}));
         });
         
     }
@@ -109,7 +108,7 @@ function Main(){
         })
         .then(data=>
         {
-            setGadgets(data.data); 
+            setGadgets(data.data.filter((item, index) => { return item.status==true}));
         });
         
     }
@@ -121,7 +120,6 @@ function Main(){
             min: range[0],
             max: range[1],
         };
-        console.log(filter_gadget)
         axios({
             method:'post',
             url: "https://webapplicationclient20230302194755.azurewebsites.net/Gadget/GetGadgetFilter",
@@ -134,7 +132,7 @@ function Main(){
         })
         .then(data=>
         {
-            setGadgets(data.data);    
+            setGadgets(data.data.filter((item, index) => { return item.status==true}));   
         });
         
     }
