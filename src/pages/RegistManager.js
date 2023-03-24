@@ -66,6 +66,13 @@ const [pass2, setPass2] = useState("");
                 <input className="Input" onChange={(e)=>{setEmail(e.target.value)}} id="email"></input>
                 <br></br>
                 <label>Password</label>
+                <div style={{color:'gray', fontSize: '11px', display: "flex"}}>
+                  <p>Capital letters</p>
+                  <p>Latin letters</p>
+                  <p>Use Numbers</p>
+                  <p>Use !_#</p>
+                  <p>Min 6 characters</p>
+                </div>
                 <input className="Input" onChange={(e)=>{setPass(e.target.value)}} id="pass" type='password'></input>
                 <br></br>
                 <label>Password again</label>

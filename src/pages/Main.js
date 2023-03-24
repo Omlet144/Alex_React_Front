@@ -1,5 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { SliderData } from '../components/SliderData.js';
+import { myBasketGadjets } from '../components/myBasketGadjets.ts';
 import { useEffect, useState } from "react";
 import { useClipboard } from 'use-clipboard-copy';
 
@@ -11,13 +12,16 @@ import axios from "axios";
 import Slider from "@mui/material/Slider";
 import Cards from "../components/Cards.js";
 import Paginationee from "../components/Paginationee.js";
+import BasketGadjeds  from '../components/BasketGadjeds.js';
 
 function Main(){
 
-    const clipboard = useClipboard();
-
     var uniqueNames = [];
-    
+    const clipboard = useClipboard();
+    const [countGadgetBasket, setCountGadgetBasket] = useState(1);
+    const [baskeGadgets, setBaskeGadgets] = useState([]);
+    const [basketFormInline, setBasketFormInline] = useState('none');
+    const [basketCount, setBasketCount] = useState(0);
     const [models, setModels] = useState([]);
     const [gadgets, setGadgets] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -105,7 +109,7 @@ function Main(){
         })
         .then(data=>
         {
-            setGadgets(data.data);    
+            setGadgets(data.data); 
         });
         
     }
@@ -169,13 +173,33 @@ function Main(){
         };
         getGadgetFilter();
     }
-    function modelFilter(){
+    function brandlFilter(){
         uniqueNames = Array.from(new Set(gadgets.map((item, index)=>(item.name))));
-        console.log(uniqueNames);
     }
     function copyNumber(copy) {
        clipboard.copy(copy);
        alert('Сopied: '+copy);
+    }
+    function basket(id, img, name, model, price, quantity, sold, status, idCategory){  
+        baskeGadgets.push(new myBasketGadjets(id, img, name, model, price, quantity, sold, status, idCategory, 1))
+    }
+    function btnBasketDell(id){
+        setBaskeGadgets(baskeGadgets.filter(item => item.id != id));
+        if(basketCount==1)
+        {
+            setBasketCount(basketCount-1);
+            setBasketFormInline('none');
+        }
+        else{
+            setBasketCount(basketCount-1);
+        }
+    }
+    function changeBasketCount(Count){
+        setBasketCount(basketCount+Count);
+    }
+    function refreshBasket(){
+        baskeGadgets.push(new myBasketGadjets(999999, "image", "name", "model", 0, 0, 0, "status", 1))
+        setBaskeGadgets(baskeGadgets.filter(item => item.id != 999999));
     }
     return(
     <div className="App1">
@@ -196,18 +220,17 @@ function Main(){
                     }      
                 </div>
             </div>
-          
             <div id="DivRegisAndLoginLinks">
                 <div>
                     <Link className="link" to="/regist">
                         Regist  
-                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/create_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/create_black_24dp.svg" style={{width:'18px', height: '18px'}}></img>
                     </Link>
                     
                     <b className="RegisAndLoginLinks" > or </b>
                     <Link className="link" to="/login">
                         Login   
-                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/person_outline_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                        <img src="https://alexstsorageblops.blob.core.windows.net/magic/person_outline_black_24dp.svg" style={{width:'18px', height: '18px'}}></img>
                     </Link>
                     
                 </div>
@@ -225,15 +248,27 @@ function Main(){
                     </i>
                     <a id="clear-btn" onClick={()=>clearSearch()}>X</a>
                 </div>
+
+                <div id="basket" onClick={()=>{if(basketCount!=0){setBasketFormInline('inline')}}} style={{ cursor: 'pointer', position: 'absolute', right: '70px'}}>
+                    <b className="link" id="basket">{basketCount}</b>
+                    <img src="https://alexstsorageblops.blob.core.windows.net/magic/basket.svg" style={{width:'18px', height: '18px'}}></img>
+                </div>
+
                 <div id="out" onClick={()=>getOut()} style={{ cursor: 'pointer'}}>
                     <b className="link" id="out" >Out   </b>
-                    <img src="https://alexstsorageblops.blob.core.windows.net/magic/logout_black_24dp.svg" style={{width:'18px', height: '18px'}} alt="React Logo"></img>
+                    <img src="https://alexstsorageblops.blob.core.windows.net/magic/logout_black_24dp.svg" style={{width:'18px', height: '18px'}}></img>
                 </div>
                 
             </div>
+            <BasketGadjeds
+                baskeGadgets={baskeGadgets}
+                btnBasketDell={btnBasketDell}
+                basketFormInline={basketFormInline}
+                setBasketFormInline={setBasketFormInline}
+                refreshBasket={refreshBasket}
 
+            ></BasketGadjeds>
             <br></br>
-
             <div id="baner">
                 <section className='slider'>
                     <img className='left-arrow' src="https://alexstsorageblops.blob.core.windows.net/magic/arrow_forward_ios_black_24dp.svg"onClick={prevSlide}></img>
@@ -246,13 +281,10 @@ function Main(){
                     );})}
                 </section>
             </div>
-
             <br></br>
-
             <div style={{textAlign: 'center'}}>
                 <span className="top" onClick={()=>(window.location.reload())}>STORE OF GADGETS</span>
             </div>
-
             <br></br>
             <div className="container-menu" id="container" style={{cursor: 'pointer'}}>
             {getCategorys()}
@@ -264,9 +296,7 @@ function Main(){
                 ))
             }
             </div> 
-            
             <br></br>
-            
             <div className="columns-menu">
                 <div className="col-left-siderbar">
                     <div className="range-class">
@@ -277,12 +307,10 @@ function Main(){
                         <div id="none"></div>
                     </div>
                     <br></br>
-                    <b>Model</b>
+                    <b>Brand</b>
                     <br></br>
                     <br></br>
-                    {
-                        modelFilter()
-                    }
+                    {brandlFilter()}
                     {
                         uniqueNames.map((item, index)=>(
                             <div key={index} style={{marginBottom: '10px'}}>
@@ -295,20 +323,24 @@ function Main(){
                 </div>
 
                 <div id="container-tovarov">
-                {getAllGadgets()}
-                <Cards
-                    gadgets={currentCard}
-                ></Cards>
+                    {getAllGadgets()}
+                    <Cards
+                        gadgets={currentCard}
+                        changeBasketCount={changeBasketCount}
+                        basket={basket}
+                        baskeGadgets={baskeGadgets}
+                    ></Cards>
+                </div>
+            </div>
+            <br></br>
+            <div className="pagination">
                 <Paginationee 
                     cardsPerPage={cardsPerPage}
                     totalCards={gadgets.length}
                     paginate={paginate}
                 ></Paginationee>
-                </div>
             </div>
-
             <br></br>
-
             <div className="end-page">
                 <div className="numbers-and-socials-links">
                     <br></br>
@@ -359,7 +391,6 @@ function Main(){
             </div>
 
         </div>
-
     </div> 
     );
 }

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { createElement, useState } from 'react';
 import axios from "axios";
+import { fontSize } from "@mui/system";
 export default function Regist() {
 
 const [login, setLogin] = useState("");
@@ -14,7 +15,7 @@ const [pass2, setPass2] = useState("");
     {
       if(email.includes('@')&& email.includes('.'))
       {
-        if(pass==pass2)
+        if(pass==pass2&&pass!="")
         {
           axios({
             method:'post',
@@ -37,10 +38,10 @@ const [pass2, setPass2] = useState("");
           {
             window.location.href='/login';
           }
-        })
+        }).catch(error => { alert("Errore")});
           
         }
-        else{alert("Passwords not equals!")}
+        else{alert("Passwords not corect!")}
       }
       else{alert("Not corect Email!")}
     }
@@ -58,16 +59,23 @@ const [pass2, setPass2] = useState("");
           <div id="container_for_login_form">
               <div id="form_login">
 
-                <label>Login</label>
+                <label>Login:</label>
                 <input className="Input" onChange={(e)=>{setLogin(e.target.value)}} id="login"></input>
                 <br></br>
-                <label>Email</label>
+                <label>Email:</label>
                 <input className="Input" onChange={(e)=>{setEmail(e.target.value)}} id="email"></input>
                 <br></br>
-                <label>Password</label>
+                <label>Password:</label>
+                <div style={{color:'gray', fontSize: '11px', display: "flex"}}>
+                  <p>Capital letters</p>
+                  <p>Latin letters</p>
+                  <p>Use Numbers</p>
+                  <p>Use !_#</p>
+                  <p>Min 6 characters</p>
+                </div>
                 <input className="Input" onChange={(e)=>{setPass(e.target.value)}} id="pass" type='password'></input>
                 <br></br>
-                <label>Password again</label>
+                <label>Password again:</label>
                 <input className="Input" onChange={(e)=>{setPass2(e.target.value)}} id="pass2" type='password'></input>
                 <br></br>
                 <button id='Btn' className="btn_login_regist" onClick={Register}> Register </button>

@@ -87,6 +87,11 @@ td, th{
     text-align: center;
     color: aliceblue;
     background-color: rgb(236, 100, 100);
+    border: none;
+}
+#DellBtn:hover{
+    color: gold;
+    border-style: solid;
 }
 #UpdateBtn{
     height: 30px;
@@ -106,3 +111,32 @@ select{
     line-height: 30px;
     position: relative;
 }
+.file{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 200px;
+}
+input[type=file]::file-selector-button {
+    margin-right: 5px;
+    border: none;
+    background: gold;
+    padding: 10px 10px;
+    border-radius: 10px;
+    color: black;
+    cursor: pointer;
+}
+  input[type=file]::file-selector-button:hover {
+    color: white;
+    background: #9f68cc;
+}
+#selectFile{
+    text-align: left;
+    font-size: 14px;
+    width: 90px;
+    bottom: 358px;
+    left: 110px;
+    background-color: white;
+    position: absolute;
+}
+
+

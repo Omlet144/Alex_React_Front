@@ -34,8 +34,7 @@ function Log()
             }
             else{window.location.href='/Manager';}
         }
-        else{alert('Errore!')}
-    })
+    }).catch(error => { alert("Errore")});
     console.log(window.sessionStorage.getItem('token'));
     
     
@@ -52,12 +51,12 @@ return (
         <div id="container_for_login_form">
             <div id="form_login">
 
-                <label>Login</label>
+                <label>Login:</label>
                 <input className="login_pass" onChange={(e)=>{setLogin(e.target.value)}} id="login"></input>
 
                 <br></br>
 
-                <label>Password</label>
+                <label>Password:</label>
                 <input className="login_pass" onChange={(e)=>{setPass(e.target.value)}} id="pass" type='password'></input>
 
                 <br></br>
